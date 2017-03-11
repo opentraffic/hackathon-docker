@@ -32,7 +32,8 @@ RUN conda create --quiet --yes -p $CONDA_DIR/envs/python2 python=2.7 \
     'ipython=4.2*' \
     'ipywidgets=5.2*' \
     'ipyleaflet' \ 
-    'geopandas' && \
+    'pyshp'  \ 
+    'shapely' && \
     conda clean -tipsy
 
 # Add shortcuts to distinguish pip for python2 and python3 envs
@@ -45,11 +46,6 @@ RUN jupyter nbextension enable --py --sys-prefix ipyleaflet
 
 # Import matplotlib the first time to build the font cache.
 ENV XDG_CACHE_HOME /home/$NB_USER/.cache/
-RUN MPLBACKEND=Agg $CONDA_DIR/envs/python2/bin/python -c "import matplotlib.pyplot"
-
-# Configure ipython kernel to use matplotlib inline backend by default
-RUN mkdir -p $HOME/.ipython/profile_default/startup
-COPY mplimporthook.py $HOME/.ipython/profile_default/startup/
 
 USER root
 
@@ -63,6 +59,6 @@ RUN pip install kernda --no-cache && \
     pip uninstall kernda -y 
 
 RUN cd /home/jovyan/work/ && \
-    git clone https://github.com/opentraffic/hackathon-jupyter.git  
+    git clone https://github.com/opentraffic/hackathon-jupyter.git . 
 
 USER $NB_USER
