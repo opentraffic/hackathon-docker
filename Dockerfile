@@ -63,12 +63,6 @@ RUN pip install kernda --no-cache && \
     pip uninstall kernda -y 
 
 RUN cd /home/jovyan/work/ && \
-    wget https://codeload.github.com/opentraffic/hackathon-jupyter/zip/master -O hackathon-jupyter-master.zip && \
-    unzip hackathon-jupyter-master.zip && \
-    cd ./hackathon-jupyter-master && \
-    mv ./* ../ && \
-    cd ../ && \
-    rm hackathon-jupyter-master.zip
-    
+    git clone https://github.com/opentraffic/hackathon-jupyter.git  
 
 USER $NB_USER
